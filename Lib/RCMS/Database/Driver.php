@@ -337,7 +337,7 @@ abstract class RCMS_Database_Driver {
     public function getSql() {
         $sql = implode(" ", $this->_sql);
 
-        unset($this->sql);
+        $this->_sql = array();
 
         return $sql;
     }
