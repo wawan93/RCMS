@@ -1,3 +1,3 @@
 RCMS
 ====
-New Content Management System
+New Content Management System. RCMS use MVC.
