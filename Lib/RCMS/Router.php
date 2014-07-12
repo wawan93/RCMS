@@ -7,7 +7,7 @@
  */
 
 class RCMS_Router {
-	private $routes = array ();
+	private $_routes = array ();
 
 	private $_module;
 	private $_action;
