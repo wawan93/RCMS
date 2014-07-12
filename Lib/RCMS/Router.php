@@ -36,7 +36,7 @@ class RCMS_Router {
      * Get Route by id
      */
     public function get($id) {
-        return isset($this->routes[$id]) ? $this->routes[$id] : false;
+        return isset($this->_routes[$id]) ? $this->_routes[$id] : false;
     }
 
     /**
