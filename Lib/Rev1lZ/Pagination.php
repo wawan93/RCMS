@@ -10,27 +10,27 @@ class Rev1lZ_Pagination {
     /**
      * @var int
      */
-    private $numRows;
+    private $_numRows;
 
     /**
      * @var int
      */
-    private $numPages;
+    private $_numPages;
 
     /**
      * @var int
      */
-    private $currentPage;
+    private $_currentPage;
 
     /**
      * @var string
      */
-    private $prefix;
+    private $_prefix;
 
     /**
      * @var array
      */
-    private $config = array (
+    private $_config = array (
         "rowsOnPage" => 10,
         "htmlClass" => "cms-pagination"
     );
@@ -42,24 +42,24 @@ class Rev1lZ_Pagination {
      * @param array $customConfig
      */
     public function __construct ($numRows, $currentPage,  $prefix, $customConfig = array()) {
-        $this->numRows = intval($numRows);
-        $this->currentPage = $currentPage;
-        $this->prefix = $prefix;
+        $this->_numRows = intval($numRows);
+        $this->_currentPage = $currentPage;
+        $this->_prefix = $prefix;
 
         foreach ($customConfig as $key => $value)
-            $this->config[$key] = $value;
+            $this->_config[$key] = $value;
 
-        $numPages = ceil($this->numRows / $this->config["rowsOnPage"]);
+        $numPages = ceil($this->_numRows / $this->_config["rowsOnPage"]);
 
         if ($numPages > 0)
-            $this->numPages = $numPages;
+            $this->_numPages = $numPages;
         else
-            $this->numPages = 1;
+            $this->_numPages = 1;
                 
-        if ($currentPage > 0 && $currentPage <= $this->numPages)
-            $this->currentPage = $currentPage;
+        if ($currentPage > 0 && $currentPage <= $this->_numPages)
+            $this->_currentPage = $currentPage;
         else
-            $this->currentPage = 1;
+            $this->_currentPage = 1;
     }
 
     /**
@@ -68,8 +68,8 @@ class Rev1lZ_Pagination {
      * Get limits for SQL query
      */
     public function getSqlLimits () {
-        $minRow = ($this->currentPage - 1) * $this->config["rowsOnPage"];
-        $maxRow = $this->config["rowsOnPage"];
+        $minRow = ($this->_currentPage - 1) * $this->_config["rowsOnPage"];
+        $maxRow = $this->_config["rowsOnPage"];
 
         return array (
             $minRow, $maxRow
@@ -81,10 +81,10 @@ class Rev1lZ_Pagination {
      * @param $link
      * @return string
      */
-    private function getRow ($id, $link) {
+    private function _getRow ($id, $link) {
         if ($link === true) {
-            $pageUrl = $this->prefix;
-            $thisPage = ($this->currentPage == $id);
+            $pageUrl = $this->_prefix;
+            $thisPage = ($this->_currentPage == $id);
             
             $currentLi = $thisPage ? " class=\"active\"" : "";
             $currentA = $thisPage ? " class=\"active\"" : "";
@@ -109,32 +109,32 @@ HTML;
      * Get Pagination HTML Code
      */
     public function getHtmlCode () {
-        if ($this->numPages > 1) {
-            $class = $this->config["htmlClass"];
+        if ($this->_numPages > 1) {
+            $class = $this->_config["htmlClass"];
 
             $html = <<<HTML
     <ul class="{$class}">
 HTML;
-            $minPage = $this->currentPage-4;
-            $maxPage = $this->currentPage+4;
+            $minPage = $this->_currentPage-4;
+            $maxPage = $this->_currentPage+4;
 
-            $html .= $this->getRow(1, true);
+            $html .= $this->_getRow(1, true);
 
             if ($minPage > 2)
-                $html .= $this->getRow("...", false);
+                $html .= $this->_getRow("...", false);
             else
                 $minPage = 2;
 
-            if ($maxPage >= $this->numPages - 1)
-                $maxPage = $this->numPages - 1;
+            if ($maxPage >= $this->_numPages - 1)
+                $maxPage = $this->_numPages - 1;
 
             for ($i = $minPage; $i <= $maxPage; $i++)
-                $html .= $this->getRow($i, true);
+                $html .= $this->_getRow($i, true);
 
-            if ($maxPage < $this->numPages - 1)
-                $html .= $this->getRow("...", false);
+            if ($maxPage < $this->_numPages - 1)
+                $html .= $this->_getRow("...", false);
 
-            $html .= $this->getRow($this->numPages, true);
+            $html .= $this->_getRow($this->_numPages, true);
 
             $html .= <<<HTML
     </ul>
