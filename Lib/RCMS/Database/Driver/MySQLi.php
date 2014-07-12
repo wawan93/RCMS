@@ -8,11 +8,6 @@
 
 class RCMS_Database_Driver_MySQLi extends RCMS_Database_Driver {
     /**
-     * @var object
-     */
-    private $_db;
-
-    /**
      * @param $host
      * @param $username
      * @param $password
