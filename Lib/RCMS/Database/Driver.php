@@ -290,6 +290,16 @@ abstract class RCMS_Database_Driver {
     abstract function safe($string);
 
     /**
+     * @param $string
+     * @return string
+     *
+     * Safe string for use in sql
+     */
+    function string($string) {
+        return "'" . $this->safe($string) . "'";
+    }
+
+    /**
      * @return mixed|string
      */
     abstract function getError();

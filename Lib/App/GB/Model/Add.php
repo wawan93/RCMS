@@ -19,7 +19,7 @@ class App_GB_Model_Add extends RCMS_Model {
         $interval = $this->db
             ->select("count(*)")
             ->from("`" . DBPREFIX . "gb`")
-            ->where("`author_ip`", "=", "'" . Rev1lZ_HTTP::getIp() . "'")
+            ->where("`author_ip`", "=", $this->db->string(Rev1lZ_HTTP::getIp()))
             ->and_where("UNIX_TIMESTAMP(CURRENT_TIMESTAMP)", "<", "(UNIX_TIMESTAMP(`timestamp`) + " . $this->config->get(1, "Add", "Interval") . ")")
             ->result_array();
 
@@ -51,10 +51,10 @@ class App_GB_Model_Add extends RCMS_Model {
             $query = $this->db
                 ->insert_into("`" . DBPREFIX . "gb`")
                 ->values(array(
-                    "`author`" => "'" . $name . "'",
-                    "`author_ip`" => "'" . Rev1lZ_HTTP::getIp() . "'",
-                    "`email`" => "'" . $email . "'",
-                    "`message`" => "'" . $message . "'"
+                    "`author`" => $this->db->string($name),
+                    "`author_ip`" => $this->db->string(Rev1lZ_HTTP::getIp()),
+                    "`email`" => $this->db->string($email),
+                    "`message`" => $this->db->string($message)
                 ))
                 ->result();
 

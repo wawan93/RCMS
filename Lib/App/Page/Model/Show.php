@@ -15,7 +15,7 @@ class App_Page_Model_Show extends RCMS_Model {
                 "`name`", "`text`", "`auto_warp`"
             ))
             ->from("`" . DBPREFIX . "pages`")
-            ->where("url", "=", "'" . $this->db->safe($name) . "'")
+            ->where("url", "=", $this->db->string($name))
             ->result_array();
 
         if ($array === false) {
