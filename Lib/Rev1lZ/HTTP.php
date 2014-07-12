@@ -10,7 +10,7 @@ class Rev1lZ_HTTP {
     /**
      * @var string
      */
-    private static $ip = null;
+    private static $_ip = null;
 
     /**
      * @return string
@@ -18,15 +18,15 @@ class Rev1lZ_HTTP {
      * Get Client IP Address
      */
     public static function getIp() {
-        if (self::$ip === null) {
+        if (self::$_ip === null) {
             if (!empty($_SERVER["HTTP_CLIENT_IP"]))
-                self::$ip = $_SERVER["HTTP_CLIENT_IP"];
+                self::$_ip = $_SERVER["HTTP_CLIENT_IP"];
             elseif (!empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
-                self::$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+                self::$_ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
             else
-                self::$ip = $_SERVER["REMOTE_ADDR"];
+                self::$_ip = $_SERVER["REMOTE_ADDR"];
         }
 
-        return self::$ip;
+        return self::$_ip;
     }
 }
