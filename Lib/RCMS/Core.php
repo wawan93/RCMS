@@ -10,43 +10,43 @@ class RCMS_Core {
     /**
      * @var object
      */
-    private $config = null;
+    private $_config = null;
 
     /**
      * @var object
      */
-    private $lang = null;
+    private $_lang = null;
 
     /**
      * @var string
      */
-    private $title = "";
+    private $_title = "";
 
     /**
      * @var array
      */
-    private $meta = array ();
+    private $_meta = array ();
 
     /**
      * @var array
      */
-    private $css = array ();
+    private $_css = array ();
 
     /**
      * @var array
      */
-    private $js = array ();
+    private $_js = array ();
 
     /**
      * @var array
      */
-    private $breadcrumbs = array ();
+    private $_breadcrumbs = array ();
 
     public function __construct() {
         $registry = RCMS_Registry::getInstance();
 
-        $this->config = $registry->getObject("Config");
-        $this->lang = $registry->getObject("Lang");
+        $this->_config = $registry->getObject("Config");
+        $this->_lang = $registry->getObject("Lang");
     }
 
     /**
@@ -56,7 +56,7 @@ class RCMS_Core {
      * Set page title
      */
     public function setTitle($title) {
-        $this->title = $title;
+        $this->_title = $title;
 
         return $this;
     }
@@ -67,7 +67,7 @@ class RCMS_Core {
      * Get page title
      */
     public function getTitle() {
-        return empty($this->title) ? "Неизвестная страница" : $this->title;
+        return empty($this->_title) ? "Неизвестная страница" : $this->_title;
     }
 
     /**
@@ -79,8 +79,8 @@ class RCMS_Core {
      * Add page meta
      */
     public function addMeta($name, $content) {
-        if (array_search($name, $this->meta) === false)
-            $this->meta[$name] = $content;
+        if (array_search($name, $this->_meta) === false)
+            $this->_meta[$name] = $content;
         else
             throw new Exception("Core error: Meta {$name} already exists!");
 
@@ -109,7 +109,7 @@ class RCMS_Core {
     public function getMeta() {
         $html = "";
 
-        foreach($this->meta as $name => $content)
+        foreach($this->_meta as $name => $content)
             $html .= "<meta name=\"{$name}\" content=\"{$content}\">\n";
 
         return $html;
@@ -123,8 +123,8 @@ class RCMS_Core {
      * Add page CSS
      */
     public function addCss($src) {
-        if (!in_array($src, $this->css))
-            $this->css[] = SITE_PATH . $src;
+        if (!in_array($src, $this->_css))
+            $this->_css[] = SITE_PATH . $src;
         else
             throw new Exception("Core error: Css {$src} already exists!");
 
@@ -153,7 +153,7 @@ class RCMS_Core {
     public function getCss() {
         $html = "";
 
-        foreach($this->css as $src)
+        foreach($this->_css as $src)
             $html .= "<link href=\"{$src}\" type=\"text/css\" rel=\"stylesheet\">\n";
 
         return $html;
@@ -167,8 +167,8 @@ class RCMS_Core {
      * Add page JS
      */
     public function addJs($src) {
-        if (!in_array($src, $this->js))
-            $this->js[] = SITE_PATH . $src;
+        if (!in_array($src, $this->_js))
+            $this->_js[] = SITE_PATH . $src;
         else
             throw new Exception("Core error: Js {$src} already exists!");
 
@@ -197,7 +197,7 @@ class RCMS_Core {
     public function getJs() {
         $html = "";
 
-        foreach($this->js as $src)
+        foreach($this->_js as $src)
             $html .= "<script src=\"{$src}\"></script>\n";
 
         return $html;
@@ -211,7 +211,7 @@ class RCMS_Core {
      * Add page Breadcrumbs
      */
     public function addBreadcrumbs($name, $link = null) {
-        $this->breadcrumbs[] = array (
+        $this->_breadcrumbs[] = array (
             $name, $link
         );
 
@@ -240,8 +240,8 @@ class RCMS_Core {
         $path = SITE_PATH;
         $html = "";
 
-        foreach ($this->breadcrumbs as $row) {
-            $active = ($row == end($this->breadcrumbs)) ? " class=\"active\"" : "";
+        foreach ($this->_breadcrumbs as $row) {
+            $active = ($row == end($this->_breadcrumbs)) ? " class=\"active\"" : "";
             $name = ($row[1] === null) ? $row[0] : "<a href=\"{$path}{$row[1]}\">{$row[0]}</a>";
             $html .= "<li{$active}>{$name}</li>";
         }
@@ -257,15 +257,15 @@ class RCMS_Core {
      * Get date in format by timestamp
      */
     public function getDate($timestamp, $smart = true) {
-        if ($smart && $this->config->get(0, "Core", "SmartDate"))
+        if ($smart && $this->_config->get(0, "Core", "SmartDate"))
             if (date("j") == date("j", $timestamp))
-                return $this->lang->get(0, "Core", "smartDate.today");
+                return $this->_lang->get(0, "Core", "smartDate.today");
             else if (date("j") == date("j", strtotime("+1 day", $timestamp)))
-                return $this->lang->get(0, "Core", "smartDate.yesterday");
+                return $this->_lang->get(0, "Core", "smartDate.yesterday");
             else
-                return date($this->config->get(0, "Format", "Date"), $timestamp);
+                return date($this->_config->get(0, "Format", "Date"), $timestamp);
         else
-            return date($this->config->get(0, "Format", "Date"), $timestamp);
+            return date($this->_config->get(0, "Format", "Date"), $timestamp);
     }
 
     /**
@@ -275,7 +275,7 @@ class RCMS_Core {
      * Get time in format by timestamp
      */
     public function getTime($timestamp) {
-        return date($this->config->get(0, "Format", "Time"), $timestamp);
+        return date($this->_config->get(0, "Format", "Time"), $timestamp);
     }
 
     /**

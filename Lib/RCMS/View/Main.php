@@ -7,17 +7,17 @@
  */
 
 class RCMS_View_Main {
-    protected static $instance;
-    protected $driver_class_prefix = "RCMS_View_Driver_";
+    protected static $_instance;
+    protected $_driver_class_prefix = "RCMS_View_Driver_";
 
     /**
      * @return object
      */
     public static function getInstance() {
-        if (empty(self::$instance))
-            self::$instance = new self;
+        if (empty(self::$_instance))
+            self::$_instance = new self;
 
-        return self::$instance;
+        return self::$_instance;
     }
 
     /**
@@ -26,7 +26,7 @@ class RCMS_View_Main {
      * @throws Exception
      */
     public function driver($driver) {
-        $driver_class = $this->driver_class_prefix . $driver;
+        $driver_class = $this->_driver_class_prefix . $driver;
 
         if (class_exists($driver_class)) {
             $driver_object = new $driver_class;

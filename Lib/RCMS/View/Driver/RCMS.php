@@ -10,71 +10,66 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
     /**
      * @return array
      */
-    private function tags() {
+    private function _tags() {
 		return array (
 			"PATH" => SITE_PATH,
             "SELF" => $_SERVER["REQUEST_URI"],
-            "VIEW" => $this->config->get(0, "Site", "Path") . "view/" . $this->config->get(0, "View", "View") . "/public/",
-			"MODULE" => $this->router->getModule(),
-			"ACTION" => $this->router->getAction()
+            "VIEW" => $this->_config->get(0, "Site", "Path") . "view/" . $this->_config->get(0, "View", "View") . "/public/",
+			"MODULE" => $this->_router->getModule(),
+			"ACTION" => $this->_router->getAction()
 		);
 	}
 
     /**
      * @return array
      */
-    private function blocks() {
+    private function _blocks() {
 		return array (
-			"logged" => $this->user->isLogged(),
-			"not-logged" => !$this->user->isLogged()
+			"logged" => $this->_user->isLogged(),
+			"not-logged" => !$this->_user->isLogged()
 		);
 	}
 
     /**
      * @var object
      */
-    private $core;
+    private $_core;
 
     /**
      * @var object
      */
-    private $config;
+    private $_config;
 
     /**
      * @var object
      */
-    private $lang;
+    private $_lang;
 
     /**
      * @var object
      */
-    private $router;
+    private $_router;
 
     /**
      * @var object
      */
-    private $user;
+    private $_user;
 
     /**
      * @var array
      */
-    private $stack = array (
+    private $_stack = array (
 		"Alert" => ""
 	);
-
-    /**
-     * @var string
-     */
-    private $title = "";
 
 	public function __construct () {
         $registry = RCMS_Registry::getInstance();
 
-        $this->core = $registry->getObject("Core");
-		$this->config = $registry->getObject("Config");
-        $this->lang = $registry->getObject("Lang");
-		$this->router = $registry->getObject("Router");
-        $this->user = $registry->getObject("User");
+        $this->_core = $registry->getObject("Core");
+		$this->_config = $registry->getObject("Config");
+        $this->_lang = $registry->getObject("Lang");
+		$this->_router = $registry->getObject("Router");
+        $this->_user = $registry->getObject("User");
 	}
 
     /**
@@ -82,7 +77,7 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
      * @return string
      */
     private function ifBlock($args) {
-		$tags = $this->tags();
+		$tags = $this->_tags();
 
 		if (isset($tags[$args[1]]) && $tags[$args[1]] == $args[2])
 			return $args[3];
@@ -96,7 +91,7 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
      * @param $view
      * @return mixed
      */
-    private function block($block, $show, $view) {
+    private function _block($block, $show, $view) {
 		if ($show) {
 			$view = str_replace("[{$block}]", "", $view);
 			$view = str_replace("[/{$block}]", "", $view);
@@ -108,7 +103,7 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
 		return $view;
 	}
 
-	private function tag($tag, $value, $view) {
+	private function _tag($tag, $value, $view) {
 		return str_replace("{" . $tag . "}", $value, $view);
 	}
 
@@ -120,7 +115,7 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
      * @throws Exception
      */
     public function add($name, $tags = array(), $blocks = array()) {
-		$file = VIEW . DS . $this->config->get(0, "View", "View") . DS . $name . ".html";
+		$file = VIEW . DS . $this->_config->get(0, "View", "View") . DS . $name . ".html";
 
 		if (!file_exists($file))
 			throw new Exception("Couldn't find view: " . $name);
@@ -132,19 +127,19 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
 			else {
 				$view = preg_replace_callback("#\\[if \{(.+)\}=\"(.*)\"\\](.*)\\[/if\\]#is", array(&$this, "ifBlock"), $view);
 
-				$blocks = array_merge($blocks, $this->blocks());
-				$tags = array_merge($tags, $this->tags());
+				$blocks = array_merge($blocks, $this->_blocks());
+				$tags = array_merge($tags, $this->_tags());
 
 				foreach ($blocks as $block => $show)
-					$view = $this->block($block, $show, $view);
+					$view = $this->_block($block, $show, $view);
 
 				foreach ($tags as $tag => $value)
-					$view = $this->tag($tag, $value, $view);
+					$view = $this->_tag($tag, $value, $view);
 
-				if (isset($this->stack[$name]))
-					$this->stack[$name] .= $view;
+				if (isset($this->_stack[$name]))
+					$this->_stack[$name] .= $view;
 				else
-					$this->stack[$name] = $view;
+					$this->_stack[$name] = $view;
 
 				return $this;
 			}
@@ -170,7 +165,7 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
      * @return bool
      */
     public function get($stack) {
-		return isset($this->stack[$stack]) ? $this->stack[$stack] : false;
+		return isset($this->_stack[$stack]) ? $this->_stack[$stack] : false;
 	}
 
     /**
@@ -179,12 +174,12 @@ class RCMS_View_Driver_RCMS extends RCMS_View_Driver {
      */
     public function render($stack = null, $mainView = null) {
         if ($mainView === null)
-            $mainView = $this->config->get(0, "View", "Layout");
+            $mainView = $this->_config->get(0, "View", "Layout");
 
         $path = SITE_PATH;
 
-        $loadingLayer = $this->lang->get(0, "Ajax", "loadingLayer");
-        $unknownError = $this->lang->get(0, "Ajax", "unknownError");
+        $loadingLayer = $this->_lang->get(0, "Ajax", "loadingLayer");
+        $unknownError = $this->_lang->get(0, "Ajax", "unknownError");
 
         $ajax = <<<HTML
 <div id="cms_alert"></div>
@@ -200,22 +195,22 @@ HTML;
 
 
         $tags = array (
-			"title" => $this->core->getTitle(),
+			"title" => $this->_core->getTitle(),
 
-            "name" => $this->config->get(0, "Site", "Name"),
+            "name" => $this->_config->get(0, "Site", "Name"),
 
-            "meta" => $this->core->getMeta(),
-			"css" => $this->core->getCss(),
-			"js" => $this->core->getJs(),
+            "meta" => $this->_core->getMeta(),
+			"css" => $this->_core->getCss(),
+			"js" => $this->_core->getJs(),
             "ajax" => $ajax,
 
-            "breadcrumbs" => $this->core->getBreadcrumbs(),
-			"alerts" => $this->stack["Alert"],
-			"content" => isset($this->stack[$stack]) ? $this->stack[$stack] : ""
+            "breadcrumbs" => $this->_core->getBreadcrumbs(),
+			"alerts" => $this->_stack["Alert"],
+			"content" => isset($this->_stack[$stack]) ? $this->_stack[$stack] : ""
 		);
 
-		if ($this->user->isLogged()) {
-			$tags["profile-link"] = $path . "User/Profile/" . $this->user->get("login");
+		if ($this->_user->isLogged()) {
+			$tags["profile-link"] = $path . "User/Profile/" . $this->_user->get("login");
 			$tags["logout-link"] = $path . "User/Logout";
 		} else {
 			$tags["auth-link"] = $path . "User/Auth";

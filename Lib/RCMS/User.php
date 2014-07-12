@@ -10,46 +10,48 @@ class RCMS_User {
     /**
      * @var object
      */
-    private $config;
+    private $_config;
 
     /**
      * @var object
      */
-    private $db;
+    private $_db;
 
     /**
      * @var bool
      */
-    private $logged = false;
+    private $_logged = false;
 
     /**
      * @var array
      */
-    private $user = array();
+    private $_user = array();
 
 	public function __construct() {
         $registry = RCMS_Registry::getInstance();
 
-        $this->config = $registry->getObject("Config");
-        $this->db = $registry->getObject("Database");
+        $this->_config = $registry->getObject("Config");
+        $this->_db = $registry->getObject("Database");
 
 		$token = Rev1lZ_Cookies::get("auth_token");
 
         if ($token === false) {
-            $this->logged = false;
+            $this->_logged = false;
         } else {
-            $query = $this->db
+            $query = $this->_db
                 ->select(array(
                     "`user`"
                 ))
                 ->from("`" . DBPREFIX . "sessions`")
-                ->where("`token`", "=", "'" . $this->db->safe($token) . "'")
+                ->where("`token`", "=", $this->_db->string($token))
                 ->result_array();
 
             if ($query === false)
-                throw new Exception("User error: " . $this->db->getError());
+                throw new Exception("User error: " . $this->_db->getError());
             elseif (isset($query[0][0]["user"])) {
                 $user = $query[0][0]["user"];
+
+                // TODO: Get user info
             } else
                 Rev1lZ_Cookies::remove("auth_token");
         }
@@ -63,6 +65,7 @@ class RCMS_User {
      * External User Auth
      */
     public function externalAuth($login, $password) {
+        // TODO: Auth
         return false;
     }
 
@@ -72,7 +75,7 @@ class RCMS_User {
      * Check logged user
      */
     public function isLogged() {
-		return $this->logged;
+		return $this->_logged;
 	}
 
     /**
@@ -82,7 +85,7 @@ class RCMS_User {
      * Get user info
      */
     public function get($key) {
-        return isset($this->user[$key]) ? $this->user[$key] : false;
+        return isset($this->_user[$key]) ? $this->_user[$key] : false;
     }
 
     /**
@@ -92,7 +95,7 @@ class RCMS_User {
      * Hash User password
      */
     public function passwordHash($password) {
-        return hash("sha256", md5($password) . $this->config->get(0, "User", "PasswordSalt"));
+        return hash("sha256", md5($password) . $this->_config->get(0, "User", "PasswordSalt"));
     }
 
     /**

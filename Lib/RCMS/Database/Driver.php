@@ -10,70 +10,70 @@ abstract class RCMS_Database_Driver {
     /**
      * @var array
      */
-    protected $sql = array ();
+    protected $_sql = array ();
 
     /**
      * @var object|resource
      */
-    protected $db;
+    protected $_db;
 
-    const SELECT_OPERATOR       = "SELECT",
+    const _SELECT_OPERATOR       = "SELECT",
 
-        FROM_OPERATOR           = "FROM",
+        _FROM_OPERATOR           = "FROM",
 
-        WHERE_OPERATOR          = "WHERE",
+        _WHERE_OPERATOR          = "WHERE",
 
-        AND_OPERATOR            = "AND",
+        _AND_OPERATOR            = "AND",
 
-        OR_OPERATOR             = "OR",
+        _OR_OPERATOR             = "OR",
 
-        ORDER_OPERATOR          = "ORDER",
+        _ORDER_OPERATOR          = "ORDER",
 
-        BY_OPERATOR             = "BY",
+        _BY_OPERATOR             = "BY",
 
-        DESC_OPERATOR           = "DESC",
+        _DESC_OPERATOR           = "DESC",
 
-        ASC_OPERATOR            = "ASC",
+        _ASC_OPERATOR            = "ASC",
 
-        JOIN_OPERATOR           = "JOIN",
+        _JOIN_OPERATOR           = "JOIN",
 
-        ON_OPERATOR             = "ON",
+        _ON_OPERATOR             = "ON",
 
-        DELETE_OPERATOR         = "DELETE",
+        _DELETE_OPERATOR         = "DELETE",
 
-        NOT_OPERATOR            = "NOT",
+        _NOT_OPERATOR            = "NOT",
 
-        IN_OPERATOR             = "IN",
+        _IN_OPERATOR             = "IN",
 
-        AS_OPERATOR             = "AS",
+        _AS_OPERATOR             = "AS",
 
-        LIKE_OPERATOR           = "LIKE",
+        _LIKE_OPERATOR           = "LIKE",
 
-        LIMIT_OPERATOR          = "LIMIT",
+        _LIMIT_OPERATOR          = "LIMIT",
 
-        INSERT_OPERATOR         = "INSERT",
+        _INSERT_OPERATOR         = "INSERT",
 
-        INTO_OPERATOR           = "INTO",
+        _INTO_OPERATOR           = "INTO",
 
-        VALUES_OPERATOR         = "VALUES",
+        _VALUES_OPERATOR         = "VALUES",
 
-        SET_OPERATOR            = "SET",
+        _SET_OPERATOR            = "SET",
 
-        UPDATE_OPERATOR         = "UPDATE",
+        _UPDATE_OPERATOR         = "UPDATE",
 
-        REPLACE_OPERATOR        = "REPLACE",
+        _REPLACE_OPERATOR        = "REPLACE",
 
-        INNER_OPERATOR          = "INNER",
+        _INNER_OPERATOR          = "INNER",
 
-        FULL_OPERATOR           = "FULL",
+        _FULL_OPERATOR           = "FULL",
 
-        LEFT_OPERATOR           = "LEFT",
+        _LEFT_OPERATOR           = "LEFT",
 
-        RIGHT_OPERATOR          = "RIGHT",
+        _RIGHT_OPERATOR          = "RIGHT",
 
-        CROSS_OPERATOR          = "CROSS",
+        _CROSS_OPERATOR          = "CROSS",
 
-        ANY_OPERATOR            = "ANY";
+        _ANY_OPERATOR            = "ANY";
 
     /**
      * @param string $host
@@ -90,7 +90,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function query($sql) {
-        $this->sql[] = $sql;
+        $this->_sql[] = $sql;
 
         return $this;
     }
@@ -100,7 +100,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function replace_into($into) {
-        $this->sql[] = self::REPLACE_OPERATOR . " " . self::INTO_OPERATOR . " " . $into;
+        $this->_sql[] = self::_REPLACE_OPERATOR . " " . self::_INTO_OPERATOR . " " . $into;
 
         return $this;
     }
@@ -117,7 +117,7 @@ abstract class RCMS_Database_Driver {
         else
             $select = $args;
 
-        $this->sql[] = self::SELECT_OPERATOR . " " . $select;
+        $this->_sql[] = self::_SELECT_OPERATOR . " " . $select;
 
         return $this;
     }
@@ -127,7 +127,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function from($table) {
-        $this->sql[] = self::FROM_OPERATOR . " " . $table;
+        $this->_sql[] = self::_FROM_OPERATOR . " " . $table;
 
         return $this;
     }
@@ -140,9 +140,9 @@ abstract class RCMS_Database_Driver {
      */
     public function where($that, $symbol, $what = "") {
         if(empty($what))
-            $what = self::ANY_OPERATOR;
+            $what = self::_ANY_OPERATOR;
 
-        $this->sql[] = self::WHERE_OPERATOR . " " . $that . " " . $symbol . " " . $what;
+        $this->_sql[] = self::_WHERE_OPERATOR . " " . $that . " " . $symbol . " " . $what;
 
         return $this;
     }
@@ -155,9 +155,9 @@ abstract class RCMS_Database_Driver {
      */
     public function and_where($that, $symbol, $what) {
         if(empty($what))
-            $what = self::ANY_OPERATOR;
+            $what = self::_ANY_OPERATOR;
 
-        $this->sql[] = self::AND_OPERATOR . " " . $that . " " . $symbol . " " . $what;
+        $this->_sql[] = self::_AND_OPERATOR . " " . $that . " " . $symbol . " " . $what;
 
         return $this;
     }
@@ -170,9 +170,9 @@ abstract class RCMS_Database_Driver {
      */
     public function or_where($that, $symbol, $what) {
         if(empty($what))
-            $what = self::ANY_OPERATOR;
+            $what = self::_ANY_OPERATOR;
 
-        $this->sql[] = self::OR_OPERATOR . " " . $that . " " . $symbol . " " . $what;
+        $this->_sql[] = self::_OR_OPERATOR . " " . $that . " " . $symbol . " " . $what;
 
         return $this;
     }
@@ -182,7 +182,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function order_by($by) {
-        $this->sql[] = self::ORDER_OPERATOR . " " . self::BY_OPERATOR . " " . $by;
+        $this->_sql[] = self::_ORDER_OPERATOR . " " . self::_BY_OPERATOR . " " . $by;
 
         return $this;
     }
@@ -191,7 +191,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function desc() {
-        $this->sql[] = self::DESC_OPERATOR;
+        $this->_sql[] = self::_DESC_OPERATOR;
 
         return $this;
     }
@@ -200,7 +200,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function asc() {
-        $this->sql[] = self::ASC_OPERATOR;
+        $this->_sql[] = self::_ASC_OPERATOR;
 
         return $this;
     }
@@ -210,7 +210,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function insert_into($table) {
-        $this->sql[] = self::INSERT_OPERATOR . " " . self::INTO_OPERATOR . " " . $table;
+        $this->_sql[] = self::_INSERT_OPERATOR . " " . self::_INTO_OPERATOR . " " . $table;
 
         return $this;
     }
@@ -228,7 +228,7 @@ abstract class RCMS_Database_Driver {
             $_values[] = $value;
         }
 
-        $this->sql[] = "(" . implode(", ", $_rows) . ") " . self::VALUES_OPERATOR . " (" . implode(", ", $_values) . ")";
+        $this->_sql[] = "(" . implode(", ", $_rows) . ") " . self::_VALUES_OPERATOR . " (" . implode(", ", $_values) . ")";
 
         return $this;
     }
@@ -238,7 +238,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function limit(Array $limit) {
-        $this->sql[] = self::LIMIT_OPERATOR . " " . $limit[0] . ", " . $limit[1] ;
+        $this->_sql[] = self::_LIMIT_OPERATOR . " " . $limit[0] . ", " . $limit[1] ;
 
         return $this;
     }
@@ -248,7 +248,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function update($table) {
-        $this->sql[] = self::UPDATE_OPERATOR . " " . $table;
+        $this->_sql[] = self::_UPDATE_OPERATOR . " " . $table;
 
         return $this;
     }
@@ -263,7 +263,7 @@ abstract class RCMS_Database_Driver {
         foreach($values as $row => $value)
             $s[] = $row . "=" . $value;
 
-        $this->sql[] = self::SET_OPERATOR . " " . implode(", ", $s);
+        $this->_sql[] = self::_SET_OPERATOR . " " . implode(", ", $s);
 
         return $this;
     }
@@ -273,7 +273,7 @@ abstract class RCMS_Database_Driver {
      * @return $this
      */
     public function delete($table) {
-        $this->sql[] = self::DELETE_OPERATOR . " " . $table;
+        $this->_sql[] = self::_DELETE_OPERATOR . " " . $table;
 
         return $this;
     }
@@ -328,14 +328,14 @@ abstract class RCMS_Database_Driver {
      * @return object|resource
      */
     public function getLink() {
-        return $this->db;
+        return $this->_db;
     }
 
     /**
      * @return string
      */
     public function getSql() {
-        $sql = implode(" ", $this->sql);
+        $sql = implode(" ", $this->_sql);
 
         unset($this->sql);
 

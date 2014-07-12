@@ -10,21 +10,21 @@ class RCMS_Database_Main {
     /**
      * @var object
      */
-    protected static $instance;
+    protected static $_instance;
 
     /**
      * @var string
      */
-    protected $driver_class_prefix = "RCMS_Database_Driver_";
+    protected $_driver_class_prefix = "RCMS_Database_Driver_";
 
     /**
      * @return object
      */
     public static function getInstance() {
-        if (empty(self::$instance))
-            self::$instance = new self;
+        if (empty(self::$_instance))
+            self::$_instance = new self;
 
-        return self::$instance;
+        return self::$_instance;
     }
 
     /**
@@ -33,7 +33,7 @@ class RCMS_Database_Main {
      * @throws Exception
      */
     public function driver($driver) {
-        $driver_class = $this->driver_class_prefix . $driver;
+        $driver_class = $this->_driver_class_prefix . $driver;
 
         if (class_exists($driver_class)) {
             $driver_object = new $driver_class;

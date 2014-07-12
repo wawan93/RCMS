@@ -7,28 +7,28 @@
  */
 
 abstract class RCMS_Controller {
-    protected $ajax;
+    protected $_ajax;
 
-	protected $config;
-    protected $lang;
-    protected $core;
-    protected $view;
-    protected $user;
-    protected $router;
+	protected $_config;
+    protected $_lang;
+    protected $_core;
+    protected $_view;
+    protected $_user;
+    protected $_router;
 
     public $default_actions = true;
 
 	public function __construct() {
         $registry = RCMS_Registry::getInstance();
 
-        $this->ajax = defined("AJAX");
+        $this->_ajax = defined("AJAX");
 
-        $this->config = $registry->getObject("Config");
-        $this->lang = $registry->getObject("Lang");
-        $this->core = $registry->getObject("Core");
-		$this->view = $registry->getObject("View");
-        $this->user = $registry->getObject("User");
-        $this->router = $registry->getObject("Router");
+        $this->_config = $registry->getObject("Config");
+        $this->_lang = $registry->getObject("Lang");
+        $this->_core = $registry->getObject("Core");
+		$this->_view = $registry->getObject("View");
+        $this->_user = $registry->getObject("User");
+        $this->_router = $registry->getObject("Router");
 	}
 
     public abstract function Action_Index();

@@ -10,7 +10,7 @@ class RCMS_Config {
     /**
      * @var array
      */
-    private $config = array (
+    private $_config = array (
         array(),
         array()
     );
@@ -34,7 +34,7 @@ class RCMS_Config {
 
                 if (is_file($file)) {
                     $path = pathinfo($file);
-                    $this->config[$stack][$path["filename"]] = include $file;
+                    $this->_config[$stack][$path["filename"]] = include $file;
                 }
             }
     }
@@ -48,6 +48,6 @@ class RCMS_Config {
      * Get Config value by Stack
      */
     public function get ($stack, $type, $key) {
-		return isset($this->config[$stack][$type][$key]) ? $this->config[$stack][$type][$key] : false;
+		return isset($this->_config[$stack][$type][$key]) ? $this->_config[$stack][$type][$key] : false;
 	}
 }

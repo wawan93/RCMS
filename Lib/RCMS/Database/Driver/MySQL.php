@@ -17,13 +17,13 @@ class RCMS_Database_Driver_MySQL extends RCMS_Database_Driver {
      * @throws Exception
      */
     public function connect($host, $username, $password, $name, $charset = 'utf8') {
-        if (!$this->db = mysql_connect($host, $username, $password))
+        if (!$this->_db = mysql_connect($host, $username, $password))
             throw new Exception('Database error: connect error, ' . __METHOD__);
 
-        if (!mysql_select_db($name, $this->db))
+        if (!mysql_select_db($name, $this->_db))
             throw new Exception('Database error: select database error, ' . __METHOD__);
 
-        if (!mysql_set_charset($charset, $this->db))
+        if (!mysql_set_charset($charset, $this->_db))
             throw new Exception('Database error: set charset error, ' . __METHOD__);
     }
 
@@ -31,7 +31,7 @@ class RCMS_Database_Driver_MySQL extends RCMS_Database_Driver {
  * @return int
  */
     public function insert_id() {
-        return mysql_insert_id($this->db);
+        return mysql_insert_id($this->_db);
     }
 
     /**
@@ -39,21 +39,21 @@ class RCMS_Database_Driver_MySQL extends RCMS_Database_Driver {
      * @return string
      */
     public function safe($string) {
-        return mysql_real_escape_string($string, $this->db);
+        return mysql_real_escape_string($string, $this->_db);
     }
 
     /**
      * @return mixed|string
      */
     public function getError() {
-        return mysql_error($this->db);
+        return mysql_error($this->_db);
     }
 
     /**
      * @return bool
      */
     public function result() {
-        if (mysql_query($this->getSql(), $this->db))
+        if (mysql_query($this->getSql(), $this->_db))
             return true;
         else
             return false;
@@ -63,7 +63,7 @@ class RCMS_Database_Driver_MySQL extends RCMS_Database_Driver {
     * @return int
     */
     public function result_num() {
-        $num = mysql_num_rows(mysql_query($this->getSql(), $this->db));
+        $num = mysql_num_rows(mysql_query($this->getSql(), $this->_db));
 
         if ($num === false)
             return false;
@@ -75,7 +75,7 @@ class RCMS_Database_Driver_MySQL extends RCMS_Database_Driver {
      * @return array
      */
     public function result_array() {
-        if ($query = mysql_query($this->getSql(), $this->db)) {
+        if ($query = mysql_query($this->getSql(), $this->_db)) {
             $result = array ();
 
             while ($row = mysql_fetch_array($query))
@@ -88,6 +88,6 @@ class RCMS_Database_Driver_MySQL extends RCMS_Database_Driver {
     }
 
     public function close() {
-        mysql_close($this->db);
+        mysql_close($this->_db);
     }
 }

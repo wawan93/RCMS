@@ -11,11 +11,11 @@ class App_Translit_Controller_Frontend extends RCMS_Controller {
         $text = isset($_POST["text"]) ? $_POST["text"] : "";
         $show = new App_Translit_Model_Show($text);
 
-        $this->core
+        $this->_core
             ->addBreadcrumbs($show->title)
             ->setTitle($show->title);
 
-        $this->view
+        $this->_view
             ->add($show->viewName, $show->tags, $show->blocks)
             ->render($show->viewName, $show->render);
 	}

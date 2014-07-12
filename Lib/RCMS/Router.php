@@ -9,24 +9,24 @@
 class RCMS_Router {
 	private $routes = array ();
 
-	private $module;
-	private $action;
+	private $_module;
+	private $_action;
 
-	private $config;
-    private $lang;
+	private $_config;
+    private $_lang;
 
     public function __construct() {
         $registry = RCMS_Registry::getInstance();
 
-        $this->config = $registry->getObject("Config");
-        $this->lang = $registry->getObject("Lang");
+        $this->_config = $registry->getObject("Config");
+        $this->_lang = $registry->getObject("Lang");
 
-        $this->routes = explode("/", isset($_GET["go"]) ? $_GET["go"] : "");
-        $this->module = $this->get(0) ? $this->get(0) : $this->config->get(0, "Defaults", "Module");
-        $this->action = $this->get(1) ? $this->get(1) : "Index";
+        $this->_routes = explode("/", isset($_GET["go"]) ? $_GET["go"] : "");
+        $this->_module = $this->get(0) ? $this->get(0) : $this->_config->get(0, "Defaults", "Module");
+        $this->_action = $this->get(1) ? $this->get(1) : "Index";
 
-        $this->config->addStack(1, $this->module);
-        $this->lang->addStack(1, $this->module);
+        $this->_config->addStack(1, $this->_module);
+        $this->_lang->addStack(1, $this->_module);
     }
 
     /**
@@ -45,7 +45,7 @@ class RCMS_Router {
      * Get Module name
      */
     public function getModule() {
-        return $this->module;
+        return $this->_module;
     }
 
     /**
@@ -54,7 +54,7 @@ class RCMS_Router {
      * Get Action name
      */
     public function getAction() {
-        return $this->action;
+        return $this->_action;
     }
 
     /**
@@ -63,12 +63,12 @@ class RCMS_Router {
     public function start() {
         $type = "Frontend";
 
-		$this->check_module($this->module, $type);
+		$this->check_module($this->_module, $type);
 
-		$controller_class = "App_" . $this->module . "_Controller_" . $type;
+		$controller_class = "App_" . $this->_module . "_Controller_" . $type;
 
 		$controller = new $controller_class;
-		$action = "Action_" . (($controller->default_actions) ? $this->action : "Index");
+		$action = "Action_" . (($controller->default_actions) ? $this->_action : "Index");
 
 		if (method_exists($controller, $action))
 			$controller->$action();

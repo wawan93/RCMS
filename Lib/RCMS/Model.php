@@ -18,21 +18,21 @@ abstract class RCMS_Model {
     public $tags = array ();
     public $blocks = array ();
 
-    protected $config;
-    protected $lang;
-    protected $core;
-    protected $db;
-    protected $view;
-    protected $user;
+    protected $_config;
+    protected $_lang;
+    protected $_core;
+    protected $_db;
+    protected $_view;
+    protected $_user;
 
 	public function __construct () {
         $registry = RCMS_Registry::getInstance();
 
-		$this->config = $registry->getObject("Config");
-        $this->lang = $registry->getObject("Lang");
-        $this->core = $registry->getObject("Core");
-		$this->db =$registry->getObject("Database");
-		$this->view = $registry->getObject("View");
-        $this->user = $registry->getObject("User");
+		$this->_config = $registry->getObject("Config");
+        $this->_lang = $registry->getObject("Lang");
+        $this->_core = $registry->getObject("Core");
+		$this->_db =$registry->getObject("Database");
+		$this->_view = $registry->getObject("View");
+        $this->_user = $registry->getObject("User");
 	}
 }

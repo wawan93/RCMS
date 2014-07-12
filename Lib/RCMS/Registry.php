@@ -10,12 +10,12 @@ class RCMS_Registry {
     /**
      * @var object
      */
-    private static $instance;
+    private static $_instance;
 
     /**
      * @var array
      */
-    private $objects = array ();
+    private $_objects = array ();
 
     /**
      * @return RCMS_Registry
@@ -23,10 +23,10 @@ class RCMS_Registry {
      * Get Object Instance
      */
     public static function getInstance() {
-        if (empty(self::$instance))
-            self::$instance = new self;
+        if (empty(self::$_instance))
+            self::$_instance = new self;
 
-        return self::$instance;
+        return self::$_instance;
     }
 
     /**
@@ -38,10 +38,10 @@ class RCMS_Registry {
      * Add Object to Stack
      */
     public function addObject($key, $object) {
-        if (array_key_exists($key, $this->objects))
+        if (array_key_exists($key, $this->_objects))
             throw new Exception("Object {$key} already registered");
 
-        $this->objects[$key] = $object;
+        $this->_objects[$key] = $object;
 
         return $this;
     }
@@ -54,10 +54,10 @@ class RCMS_Registry {
      * Get Object from Stack
      */
     public function getObject($key) {
-        if (!array_key_exists($key, $this->objects)) {
+        if (!array_key_exists($key, $this->_objects)) {
             throw new Exception("Object {$key} is not registered");
         }
 
-        return $this->objects[$key];
+        return $this->_objects[$key];
     }
 }
