@@ -1,0 +1,33 @@
+<div class="post">
+  <h3>Добавить запись</h3>
+    <form method="post" action="{SELF}" onsubmit="app.gb.post(this); return false;">
+      <table style="margin-top: 10px;">
+     <thead>
+        <tr>
+          <td style="width:150px;"></td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ваше Имя</td>
+          <td><input name="name" type="text" style="width:425px;"></td>
+        </tr>
+        <tr>
+          <td>Ваш Email</td>
+          <td><input name="email" type="email" style="width:425px;"></td>
+        </tr>
+        <tr>
+        <td>Сообщение</td>
+          <td>
+            <textarea name="message" style="width:425px; height:180px;"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button>Отправить</button></td>
+        </tr>
+      </tbody>
+     </table>
+  </form>
+</div>

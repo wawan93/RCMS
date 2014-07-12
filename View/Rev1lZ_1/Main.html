@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {meta}
+    <title>{title} | {name}</title>
+    {css}{js}
+    <link href="{VIEW}css/style.css" rel="stylesheet">
+    <link href="{VIEW}favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  </head>
+  {ajax}
+  <body>    
+    <header>
+      <div class="headerMenu">
+        <div id="wrapper">
+          <nav>
+            <div class="logo"><a href="{PATH}">Rev1lZ's</a></div>
+            [logged]<div class="profile">
+              <img src="{avatar-url}">
+              <a href="{profile-link}" class="name">{username}</a>
+            </div>[/logged]
+          
+            <ul>
+              <li>
+                <a href="{PATH}">Главная</a>
+              </li>
+              <li>
+                <a href="{PATH}Blog">Блог</a>
+              </li>
+                <li>
+                    <a href="{PATH}Page/Services">Услуги</a>
+                </li>
+              <li>
+                <a href="{PATH}GB">Гостевая книга</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      
+      <div class="clear"></div>
+    </header>
+    
+    <div id="wrapper">
+      <div class="contentLeft">
+        <ol class="speedbar">
+          {breadcrumbs}
+        </ol>
+          
+        {alerts}
+        {content}
+      </div>
+      <div class="contentRight">
+        <div class="block">
+          <div class="blockTitle">Панель пользователя</div>
+
+          <div class="blockContent">
+            <ul class="miniMenu">
+              [not-logged]
+              <li><a href="{auth-link}">Вход</a></li>
+              <li><a href="{register-link}">Регистрация</a></li>
+              [not-logged][logged]
+              [/logged]
+            </ul>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="blockTitle">Полезное</div>
+
+          <div class="blockContent">
+            <ul class="miniMenu">
+              <li><a href="{PATH}Translit">Переводчик в транслит</a></li>
+            </ul>
+         </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+
+    <footer>
+      Copyright &copy; <a href="{PATH}">Rev1lZ Project</a>. All rights reserved.
+    </footer>
+  </body>
+</html>

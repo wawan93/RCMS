@@ -1,0 +1,23 @@
+/**
+ * @author Rev1lZ<mrrev1lz@gmail.com>
+ */
+
+@charset "utf-8";
+
+
+
+
+
+/*--- [ BB CODE ] ---*/
+.cms-bbcode.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.cms-bbcode.table td{
+  border: 1px dashed #DDD;
+  padding: 3px;
+  margin:5px;
+  min-width: 5px;
+  min-height: 15px;
+}
+/*--- [/ BB CODE ] ---*/
