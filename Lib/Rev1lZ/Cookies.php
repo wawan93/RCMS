@@ -16,7 +16,7 @@ class Rev1lZ_Cookies {
      * Set cookie
      */
     public static function set($name, $value, $time) {
-        setcookie($name, $value, time() + $time);
+        setcookie($name, $value, time() + $time, '/');
     }
 
     /**
