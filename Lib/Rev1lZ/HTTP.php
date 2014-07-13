@@ -29,4 +29,9 @@ class Rev1lZ_HTTP {
 
         return self::$_ip;
     }
+
+    public static function redirect($url) {
+        header("Location: " . $url);
+        echo "Redirect to: " . $url;
+    }
 }

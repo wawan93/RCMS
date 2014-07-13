@@ -51,7 +51,20 @@ class RCMS_User {
             elseif (isset($query[0][0]["user"])) {
                 $user = $query[0][0]["user"];
 
-                // TODO: Get user info
+                $array = $this->_db
+                    ->select("*")
+                    ->from("`" . DBPREFIX . "users`")
+                    ->where("`id`", "=", $this->_db->string($user))
+                    ->result_array();
+
+                if ($array === false)
+                    throw new Exception("User error: " . $this->_db->getError());
+                elseif (!isset($array[0]))
+                    $this->_logged = false;
+                else {
+                    $this->_user = $array;
+                    $this->_logged = true;
+                }
             } else
                 Rev1lZ_Cookies::remove("auth_token");
         }
